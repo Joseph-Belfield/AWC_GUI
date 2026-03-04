@@ -11,6 +11,8 @@ find_package(Qt6 REQUIRED COMPONENTS Core)
 # MOC is what handles the Q_OBJECT macro and signals
 qt_add_library(core STATIC
     role.h
+    injury.h
+    status.h
 
 
 
