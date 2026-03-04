@@ -76,9 +76,10 @@ private:
 
     // APTITUDES -> how do I do this? have a weapon class, and then record aptitudes in there, with subclasses for each weapon?
 
-    // INJURY -> create a body class, with subclasses for each part, which records the number of wounds of each type per part
+    // INJURY
+    // create a health manager (HM) class, which stores a list of body part objects, which store their own armor class and injuries. these can be summed by HM
 
-    // EQUIPMENT -> create an inventory class, and also a general equipment/item class, with many subclasses
+    // EQUIPMENT -> create an inventory class, and also a general equipment/item class, with many subclasses. this stuff is just all JSON
     // this includes weapons, kits, rations, etc.
 
     // TRAITS -> create a trait class

@@ -10,7 +10,11 @@ find_package(Qt6 REQUIRED COMPONENTS Core)
 # define the library and enable the "Meta-Object Compiler" (MOC)
 # MOC is what handles the Q_OBJECT macro and signals
 qt_add_library(core STATIC
-    role.hpp
+    role.h
+
+
+
+
 )
 set_target_properties(core PROPERTIES AUTOMOC ON)
 

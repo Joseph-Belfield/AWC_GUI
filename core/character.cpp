@@ -11,13 +11,13 @@ Character::Character(QString forname, QString surname, QObject *parent)
     mSurname{surname},
 
     // STATS -> by passing 'this', Qt knows these Stat objects are part of Character object, and will delete them if the Character object is deleted
-    mStrength{STR, 0, this},
-    mEndurance{END, 0, this},
-    mAgility{AGI, 0, this},
-    mIntelligence(INT, 0, this),
-    mDiplomacy(DIP, 0, this),
-    mLuck{LUC, 0, this},
-    mPerception{PER, 0, this},
-    mStealth{STE, 0, this},
-    mWillpower{WIL, 0, this}
+    mStrength{Stat::STR, 0, this},
+    mEndurance{Stat::END, 0, this},
+    mAgility{Stat::AGI, 0, this},
+    mIntelligence(Stat::INT, 0, this),
+    mDiplomacy(Stat::DIP, 0, this),
+    mLuck{Stat::LUC, 0, this},
+    mPerception{Stat::PER, 0, this},
+    mStealth{Stat::STE, 0, this},
+    mWillpower{Stat::WIL, 0, this}
 {}

@@ -1,5 +1,5 @@
-#ifndef ROLE_HPP
-#define ROLE_HPP
+#ifndef ROLE_H
+#define ROLE_H
 
 #include <QObject>
 
@@ -13,4 +13,4 @@ struct Role
 };
 
 
-#endif // ROLE_HPP
+#endif // ROLE_H
