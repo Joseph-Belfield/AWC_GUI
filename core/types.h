@@ -2,8 +2,12 @@
 #define TYPES_H
 
 // This file defines key enums and structs for types of damage, status effect, etc.
+// if something ranks something's difficulty, level, etc -> use the suffix 'level'
 
-enum Difficulty
+#include <string>
+#include <vector>
+
+enum class DifficultyLevel
 {
     CAUSUAL = 4,
     EASY = 6,
@@ -16,7 +20,7 @@ enum Difficulty
     ALL_BUT_IMPOSSIBLE = 20
 };
 
-enum StatType
+enum class Stat
 {
     STR,        // strength
     END,        // endurance
@@ -29,9 +33,16 @@ enum StatType
     WIL         // willpower
 };
 
-enum WoundLevel { INSIGNFICANT, SEVERE, MORTAL };
+enum class WoundLevel
+{
+    INSIGNFICANT,
+    SEVERE,
+    MORTAL,
+    STATUS          // indicates the injury is just a status applied locally (no actual wound)
+    // isTreated can be stored as a bool later
+};
 
-enum LimbLocation
+enum class BodyLocation
 {
     HEAD,
     TORSO,
@@ -42,13 +53,223 @@ enum LimbLocation
 };
 
 // maybe make this a flag later
-enum StatusEffect
+enum class StatusEffect
 {
+    NONE,  // for when there is a wound, but no accompanying status
+
+    // 2.1
     BLEEDING,
     INFECTED,
-    BURNED,
+    BURNING,
+    ANXIETY_MINOR,
+    ANXIETY_MAJOR,
+    CONFUSION_MINOR,
+    CONFUSION_MAJOR,
+    LETHARGY,
 
-    ANXIETY
+    // 2.2
+    RESTLESSNESS,
+    ILLNESS_MINOR,
+    ILLNESS_MAJOR,
+    MIGRAINES,
+    WEAKNESS,
+    INDIGESTION,
+    HYPOTHERMIA,
+    NECROSIS,
+    SENSORY_DEPRAVATION,
+    MOTOR_ISSUES,
+    HORMONALISM,
+    // stress will have its own struct
+
+    // 2.4
+    LIMP,
+    HEARING_IMPAREMENT, // half-deaf, but more general (post-shelling hearing imparement, etc)
+    VISUAL_IMPAREMENT,  // one-eyed, but more general (could be cataracts, etc)
+    UGLY,
+};
+
+enum class EnvironmentLevel
+{
+    SIMPLE,
+    DIFFICULT,
+    VERY_DIFFICULT,
+    UNAVIGABLE,
+    PAVED,
+    SETTLEMENT
+};
+
+// this may be deleted/changed later for a different system (not enum)
+enum class Environment
+{
+    // terrains
+    PLAINS,
+    DESERT,
+    WOODS,
+    BEACH,
+    HILLS,
+    MARSHES,
+    LOW_MOUNTAIN,
+    CAVES,
+    PEAKS,
+
+    // path types
+    PATH,
+    ROAD,
+    RAIL,
+
+    // settlements
+    VILLIAGE,
+    TOWN,
+    CITY,
+    CAPITAL
+};
+
+enum class WeatherLevel
+{
+    MILD,
+    MEDIUM,
+    HARSH
+};
+
+enum class Weather
+{
+    TEMPERATE,
+    RAINING,        // light_rain
+    POURING,        // rain
+    STORMING,       // heavy_rain
+    COLD,
+    FREEZING,
+    HAILING,
+    FOG
+};
+
+enum class RestLevel
+{
+    COMFORTABLE,
+    SAFE,
+    UNSAFE,
+    SLEEPLESS
+};
+
+enum class Scar
+{
+    FINE_LINE,
+    KELOID,
+    CONTRACTURE
+};
+
+// this may be deleted/changed later for a different system (not enum)
+enum class Mania
+{
+    ANXIETY,    // (pretty sure) this is different from (wound) anxiety (?)
+    DEPRESSION,
+    SCHIZOPHRENIA,
+    EATING_DISORDER,
+    DISSOCIAL_DISORDER,
+    PHOBIA,
+    ADDICTION
+};
+
+enum class DrugType
+{
+    DEPRESSANT,
+    STIMLANT,
+    OPIATE,
+    PSYCHADELIC
+};
+
+enum class MovementLevel
+{
+    WALKING,
+    JOGGING,
+    RUNNING,
+    SPRINTING
+};
+
+enum class ArmorLevel
+{
+    PRIMITIVE,  // includes damaged armor
+    FULL,       // includes half armor
+    HEAVY       // shields grant the same effect as heavy armor
+};
+
+// traits will have a struct and then use a JSON
+
+// this may be deleted/changed later for a different system (not enum)
+enum class Language
+{
+    // 1.1
+    ALBRIAN,
+    ESLIN,
+    SOLLIAN,
+    NORLIN,
+    KUDOSKI,
+    BORDUNIC,
+    TORDE,
+    VOSEL,
+    SUDONILL,
+    VILNIC,
+    HUDIAN,
+
+    // 2.4
+    VIGANI,
+    ASL,        // Alberian Sign Language
+    SSL,        // Sollanian Sign Language
+    MYSTER,
+    TREDOLLE,
+    CARPETANIAN,
+    SUDENIC,
+    QUISILVE,
+    SOLDRILE,
+    HILLEVANE
+};
+
+// this should technically probably be RankLevel according to my own rules, but Rank does the job
+enum class Rank
+{
+    CADET,
+    PRIVATE,
+    LANCE_SERGEANT,
+    COLOR_SERGEANT,
+    WARRANT_OFFICER,
+
+    // officer ranks
+    LIEUTENANT,
+    CAPTAIN,
+    MAJOR,
+    BRIGADIER,
+    MARSHALL
+};
+
+// roles will have a class
+
+enum class WeaponType
+{
+    GUN,
+    MELEE,
+    THROWN
+};
+
+// do guns with inheritence, where there's one base 'Gun' class, then a 'Musket' subclass, then have induvidual guns saved as JSON
+
+// ==================== STRUCTS ====================
+
+// injuries are single instances of a wound or status. however, one action may cause multiple injuries (a cut which also burns will apply a wound + bleed and a burn)
+struct Injury
+{
+    WoundLevel wound;
+    StatusEffect status;
+    bool isTreated;
+
+    std::string description;
+};
+
+// body parts track injuries induvidually by accumulating them in a vector
+struct BodyPart
+{
+    BodyLocation location;
+    std::vector<Injury> injuries;
+    bool isSevered;
 };
 
 
