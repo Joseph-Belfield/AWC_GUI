@@ -4,9 +4,6 @@
 // This file defines key enums and structs for types of damage, status effect, etc.
 // if something ranks something's difficulty, level, etc -> use the suffix 'level'
 
-#include <string>
-#include <vector>
-
 enum class DifficultyLevel
 {
     CAUSUAL = 4,
@@ -60,7 +57,8 @@ enum class StatusEffect
     // 2.1
     BLEEDING,
     INFECTED,
-    BURNING,
+    BURNING_MAJOR,  // AKA. large fire
+    BURNING_MINOR,  // AKA. small fire
     ANXIETY_MINOR,
     ANXIETY_MAJOR,
     CONFUSION_MINOR,
@@ -250,29 +248,49 @@ enum class WeaponType
     THROWN
 };
 
-// do guns with inheritence, where there's one base 'Gun' class, then a 'Musket' subclass, then have induvidual guns saved as JSON
-
-// ==================== STRUCTS ====================
-
-// injuries are single instances of a wound or status. however, one action may cause multiple injuries (a cut which also burns will apply a wound + bleed and a burn)
-struct Injury
+enum class GunType
 {
-    WoundLevel wound;
-    StatusEffect status;
-    bool isTreated;
-
-    std::string description;
+    MUSKET,         // rifle
+    PISTOL,
+    HEAVY_MUSKET,   // shotgun
+    AUTO_MUSKET,    // machine gun
+    MISC
 };
 
-// body parts track injuries induvidually by accumulating them in a vector
-struct BodyPart
+enum class ExplosionLevel
 {
-    BodyLocation location;
-    std::vector<Injury> injuries;
-    bool isSevered;
+    DIRECT,
+    CLOSE,
+    MEDIUM,
+    FAR
 };
 
+enum class Currency
+{
+    // Alberia + Bordun + Vilna + Hudia
+    RIEM,           // Albarian standard currency. Worth 50 pounds. Standard currency for all prices in the game.
+    DRIER,          // Sub-unit of Riem. 100 Drier to 1 Riem.
 
+    // Solania + Vesterland
+    SLIDE,
+    // missing unit!
+
+    // Norlin + Hudia
+    RODE,
+    // missing unit!
+
+    // Karthilin
+    VESOK,
+    // missing unit!
+
+    // Torderllia & Dorburia
+    ADFAN,
+    // missing unit!
+
+    // Vosel + Suden
+    GOLEN
+    // missing unit!
+};
 
 
 #endif // TYPES_H
