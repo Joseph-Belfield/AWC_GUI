@@ -29,27 +29,19 @@ struct BodyPart
     bool isSevered;                 // is the limb still attached? (if no, automatically set isFunctional to false)
 };
 
-// recipt returned by engine detailing the result of an attack occouring
-struct AttackResult
-{
-    // fill this in later
-};
-
 // the basic item struct ->  anything that can be held by the player. will have many subclasses
 struct Item
 {
-    int ID;                     // ID number for a specific item (to prevent mix-ups with multiple of the same item)
-    std::string name;
+    std::string name;           // use name to find item in JSON!
     std::string description;
     float weight;               // in kilograms! (it's Europe after all)
     float price;                // in Riem (standard currency of Albria)
 };
 
 // will be the basis of any container (including inventory)
-struct Container : Item
+class Container : Item
 {
-    std::vector<Item> items;        // every item in container
-    std::vector<int> itemAmounts;   // amount of each item at corresponding index
+public:
     float maxWeight;                // maximum weight of items a container can hold
 
     static float calculateWeight(std::vector<Item> items, std::vector<int> amounts)
@@ -66,22 +58,22 @@ struct Container : Item
     void addItem(Item item, int amount)
     {
         // if addition of items doesn't exceeed the weight limit
-        if ((calculateWeight(items, itemAmounts) + (item.weight * amount)) <= maxWeight)
+        if ((calculateWeight(mItems, mItemAmounts) + (item.weight * amount)) <= maxWeight)
         {
             // find the index of the first occourance of this item
-            auto itemPtr = std::find(items.begin(), items.end(), item);
+            auto itemPtr = std::find(mItems.begin(), mItems.end(), item);
 
             // if an index was found, increase its amount accordingly
-            if (itemPtr != items.end())
+            if (itemPtr != mItems.end())
             {
-                int index = std::distance(items.begin(), itemPtr);
-                itemAmounts[index] += amount;
+                int index = std::distance(mItems.begin(), itemPtr);
+                mItemAmounts[index] += amount;
             }
             else
             {
                 // else if the item wasn't already present, add the item anew to the back of the vector
-                items.push_back(item);
-                itemAmounts.push_back(amount);
+                mItems.push_back(item);
+                mItemAmounts.push_back(amount);
             }
         }
         else
@@ -92,26 +84,34 @@ struct Container : Item
 
     void removeItem(Item item, int amount)
     {
-        auto itemPtr = std::find(items.begin(), items.end(), item);
+        auto itemPtr = std::find(mItems.begin(), mItems.end(), item);
 
         // if the item is in the list
-        if (itemPtr != items.end())
+        if (itemPtr != mItems.end())
         {
             // if there are more items than the amount to be removed
-            int index = std::distance(items.begin(), itemPtr);
-            if (amount < itemAmounts[index])
+            int index = std::distance(mItems.begin(), itemPtr);
+            if (amount < mItemAmounts[index])
             {
                 // remove that many items
-                itemAmounts[index] -= amount;
+                mItemAmounts[index] -= amount;
             }
             else
             {
                 // else delete that item from the vector entirely
-                items.erase(items.begin() + index);
-                itemAmounts.erase(itemAmounts.begin() + index);
+                mItems.erase(mItems.begin() + index);
+                mItemAmounts.erase(mItemAmounts.begin() + index);
             }
         }
+        else
+        {
+            std::cout << "ERROR! Item not in containter!" << std::endl;
+        }
     }
+
+private:
+    std::vector<Item> mItems;        // every item in container
+    std::vector<int> mItemAmounts;   // amount of each item at corresponding index
 };
 
 struct Ammo : Item
@@ -157,14 +157,5 @@ struct Grenade : Weapon
     std::map<ExplosionLevel, float[3]> woundRatios;     // wound ratio per range boundary (assume default wound ratios for direct hit)
 };
 
-// serves as a data-carrier to carry information about an attack to the engine
-struct AttackInstance
-{
-    int attackerID;
-    int weaponID;
-    BodyLocation location;
-    int hitRoll;
-    // complete this in the morning. the attack instance location carries information about the attack (such as what weapon) to the engine for it to calculate dmg.
-};
 
 #endif // DEFINITIONS_H

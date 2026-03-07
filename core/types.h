@@ -46,7 +46,8 @@ enum class BodyLocation
     LEFT_ARM,
     RIGHT_ARM,
     LEFT_LEG,
-    RIGHT_LEG
+    RIGHT_LEG,
+    ALL             // allows for global attacks, status effects, etc
 };
 
 // maybe make this a flag later

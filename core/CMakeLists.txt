@@ -14,6 +14,7 @@ qt_add_library(core STATIC
     definitions.h
     character.h character.cpp
     engine.h engine.cpp
+    itemregistry.h itemregistry.cpp
 
 )
 set_target_properties(core PROPERTIES AUTOMOC ON)

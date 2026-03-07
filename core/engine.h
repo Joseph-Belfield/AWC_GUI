@@ -11,14 +11,7 @@ class CombatEngine
 {
 public:
 
-    static AttackResult resolveAttack(, Character& target)
-    {
-        AttackResult result;
 
-        // do stuff here
-
-        return result;
-    }
 
 };
 

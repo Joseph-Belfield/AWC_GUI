@@ -34,7 +34,6 @@ private:
     int blood;                                  // a character's current amount of blood (ml)
     std::vector<StatusEffect> statusEffects;    // global statuses (applied to whole character)
 
-
 };
 
 #endif // CHARACTER_H
