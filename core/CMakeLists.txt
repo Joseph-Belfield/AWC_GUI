@@ -9,7 +9,7 @@ find_package(Qt6 REQUIRED COMPONENTS Core)
 
 # define the library and enable the "Meta-Object Compiler" (MOC)
 # MOC is what handles the Q_OBJECT macro and signals
-qt_add_library(core STATIC
+qt_add_library(Core STATIC
     types.h
     definitions.h
     character.h character.cpp
@@ -17,13 +17,14 @@ qt_add_library(core STATIC
     itemregistry.h itemregistry.cpp
 
 )
-set_target_properties(core PROPERTIES AUTOMOC ON)
+set_target_properties(Core PROPERTIES AUTOMOC ON)
 
-target_sources(core PRIVATE
+target_sources(Core PRIVATE
 
 )
 
 # link the Core library to Qt's Core module
-target_link_libraries(core PRIVATE Qt6::Core)
+target_link_libraries(Core PRIVATE Qt6::Core)
 
-target_include_directories(core PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
+target_include_directories(Core PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
+target_include_directories(Core PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/include)
