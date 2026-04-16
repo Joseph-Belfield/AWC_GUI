@@ -17,7 +17,7 @@ enum class DifficultyLevel
     ALL_BUT_IMPOSSIBLE = 20
 };
 
-enum class Stat
+enum class StatType
 {
     STR,        // strength
     END,        // endurance
@@ -58,8 +58,8 @@ enum class StatusEffect
     // 2.1
     BLEEDING,
     INFECTED,
-    BURNING_MAJOR,  // AKA. large fire
     BURNING_MINOR,  // AKA. small fire
+    BURNING_MAJOR,  // AKA. large fire
     ANXIETY_MINOR,
     ANXIETY_MAJOR,
     CONFUSION_MINOR,

@@ -1,13 +1,21 @@
 #include "engine.h"
 
-#include "character.h"
+Engine::Engine() {}
 
 
-AttackResult CombatEngine::resolveAttack(Character &target)
+void Engine::updateWounds(int wounds[3])
 {
-    AttackResult result;
+    // upgrading IW
+    if (wounds[0] >= 5)
+    {
+        wounds[1] += wounds[0] / 5; // upgrades wounds to SW for each lot of 5 IWs  (using DIV)
+        wounds[0] %= 5;             // removes as many multiples of 5 as possible from IW (using MOD)
+    }
 
-    // do stuff here
-
-    return result;
+    // upgrading SW
+    if (wounds[1] >= 3)
+    {
+        wounds[2] += wounds[1] / 3;
+        wounds[1] %= 3;
+    }
 }

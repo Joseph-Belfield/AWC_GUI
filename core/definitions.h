@@ -8,13 +8,20 @@
 #include <map>
 #include <iostream>
 
+struct Stat
+{
+    StatType statType;
+    int base;           // base value of stat
+    int modifier;       // modifer of stat
+};
+
 // injuries are single instances of a wound or status. however, one action may cause multiple injuries (a cut which also burns will apply a wound + bleed and a burn)
 struct Injury
 {
-    int ID; // ID number for this specific injury
     BodyLocation location;
     WoundLevel wound;
     StatusEffect status;
+    int statusLevel;
     bool isTreated;
 
     std::string description;
@@ -26,8 +33,9 @@ struct BodyPart
     BodyLocation location;
     std::vector<Injury> injuries;   // a list of all the injuries currently held by the body part
     bool isFunctional;              // can the limb be used?
-    bool isSevered;                 // is the limb still attached? (if no, automatically set isFunctional to false)
+    bool isSevered;                 // is the limb severed? (if true, automatically set isFunctional to false)
 };
+
 
 // the basic item struct ->  anything that can be held by the player. will have many subclasses
 struct Item

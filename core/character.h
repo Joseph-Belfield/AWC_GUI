@@ -8,8 +8,8 @@
 #include <string>
 
 // forward declarations
+struct Stat;
 struct BodyPart;
-
 
 class Character
 {
@@ -18,21 +18,30 @@ public:
 
 private:
 
-    int ID; // ID of the character
-
     // IDENTITY
     std::string forname;        // first & middle names
     std::string surname;        // surname
     std::string sobriquet;      // nickname
 
 
+    // STATS
+    std::vector<Stat> stats;
+
+
     // HEALTH
-    std::map<BodyLocation, BodyPart> body;      // map containing each of the character's body parts
+    std::map<BodyLocation, BodyPart> body;              // map containing each of the character's body parts
+    int netWoundCount[3];                               // tallies the total amount of each type of wound, upgrading where necessary (IW, SW, MW)
+    int blood;                                          // a character's current amount of blood (ml)
+    std::map<StatusEffect, int> statuses;               // keeps track of players global (full-body) statuses, and their level
+
     bool isConscious;
     bool isAlive;
-    int netWoundCount[3];                       // tallies the total amount of each type of wound, upgrading where necessary
-    int blood;                                  // a character's current amount of blood (ml)
-    std::vector<StatusEffect> statusEffects;    // global statuses (applied to whole character)
+
+    int stressPoints;
+
+
+
+
 
 };
 
